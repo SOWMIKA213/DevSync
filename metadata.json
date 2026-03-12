@@ -1,0 +1,8 @@
+{
+  "name": "DevSync",
+  "description": "Advanced collaborative coding platform with real-time editing, video meetings, AI assistance, and project management.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

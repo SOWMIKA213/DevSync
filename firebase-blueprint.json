@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["owner", "admin", "developer", "viewer"] }
+      },
+      "required": ["uid", "email"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A collaborative coding project",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "members": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "ownerId"]
+    },
+    "File": {
+      "title": "File",
+      "description": "A file within a project",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "projectId": { "type": "string" },
+        "name": { "type": "string" },
+        "path": { "type": "string" },
+        "content": { "type": "string" },
+        "language": { "type": "string" },
+        "type": { "type": "string", "enum": ["file", "directory"] },
+        "parentId": { "type": "string" }
+      },
+      "required": ["projectId", "name", "type"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "A message in the project chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "projectId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["projectId", "senderId", "text"]
+    },
+    "CodeComment": {
+      "title": "CodeComment",
+      "description": "A comment on a specific line of code",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "projectId": { "type": "string" },
+        "fileId": { "type": "string" },
+        "line": { "type": "number" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["projectId", "fileId", "line", "authorId", "text"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Project metadata"
+    },
+    "/projects/{projectId}/files/{fileId}": {
+      "schema": "File",
+      "description": "Files in a project"
+    },
+    "/projects/{projectId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Chat messages in a project"
+    },
+    "/projects/{projectId}/comments/{commentId}": {
+      "schema": "CodeComment",
+      "description": "Code comments in a project"
+    }
+  }
+}
